@@ -141,6 +141,7 @@
         g.day++;
         g.action = 1
       } else g.action++;
+      if(g.rep >= 100)return end('INNER CIRCLE', "Due to your high reputation with the chicken, you have been invited to his luncheon. Maybe he isn't so bad after all...")
       if(rnd([5, 4, 2, 1][g.diff]) === 0)g.san = Math.max(1, g.san-(3+rnd(8)));
       for(let i = g.customers.length-1; i >= 0; i--){
         let c = g.customers[i], offset = Math.floor((100-g.san)/5);
