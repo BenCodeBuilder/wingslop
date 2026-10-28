@@ -93,8 +93,15 @@
       g.completed = 0;
       g.paymult = 1;
       note(`You earn $${pay.toFixed(2)} for your shift! You now have $${g.money.toFixed(2)}.`);
-      let ranks = [['Trainee', 0, 20, 1], ['Crew Member', 250, 30, 1.2], ['Senior Slopmaker', 1000, 50, 1.5]];
-      if(g.rank<2 && g.xp >= ranks[g.rank+1][1]){
+      let ranks = [['Trainee', 0, 20, 1],
+       ['Crew Member', 250, 30, 1.2], 
+       ['Senior Slopmaker', 1000, 50, 1.5],
+       ['Supreme Slop Scraper', 3000, 85, 2],
+       ['Slopsistant Manager', 10000, 130, 2.75],
+       ['WingSlop Manager', 35000, 200, 3.75],
+       ['Regional Sloppager', 100000, 350, 5]
+      ];
+      if(g.rank < ranks.length - 1 && g.xp >= ranks[g.rank+1][1]){
         g.rank++;
         g.wage = ranks[g.rank][2];
         g.bonus = ranks[g.rank][3];
@@ -222,6 +229,21 @@
         tick()
       }
     }
+    function workTask(index){
+      if(!autoFinish){
+        act('work', index)
+      }
+      else{
+        const task = g.tasks[index]
+        const startingDay = g.day
+        while(g.tasks.includes(task) && g.day === startingDay && !g.ended){
+              act('work', g.tasks.indexOf(task))
+              if(screen !== 'main'){
+                break
+              }
+            }
+          }
+        }
     function submitName(){
       let name = $('#nameGuess').value.trim().toLowerCase();
       if(name !== 'harland cluckanders')return end('CAUTION: BIOHAZARD', 'The inspector is angered that you did not tell him the chicken\'s government name. WingSlop has been shut down.');
@@ -417,7 +439,7 @@
         if (canWork) {
             buttons(g.tasks.map((task, i) => [
                 task.name,
-                () => act("work", i)
+                () => workTask(i)
             ]));
         }
         backButton();
