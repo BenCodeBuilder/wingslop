@@ -7,7 +7,7 @@
     const conds = ['nuclear biohazard', 'nearly uninhabitable', 'filthy', 'messy', 'squeaky clean'];
     const taskDefs = [
     ['Clean the fryer', 3, 10], 
-    ['Mop the floor', 2, 8], 
+    ['Mop the floor', 2, 12], 
     ['Investigate suspicious sounds in the break room', 2, 5], 
     ['Attend meeting held by the chicken mascot', 4, 2],
     ['Discover why the freezer is warmer than the dining area', 2, 4],
