@@ -11,7 +11,6 @@
     ['Investigate suspicious sounds in the break room', 2, 5], 
     ['Attend meeting held by the chicken mascot', 4, 2],
     ['Discover why the freezer is warmer than the dining area', 2, 4],
-    ['Kick Gerard out of the employee bathroom', 3, 5], 
     ['Tighten security to the experimental slop room', 4, 7],
     ['Replace the employee of the month photo (It\'s been the chicken the past 200 times)', 2, 1],
     ['Remove a suspiciously human-shaped stain from the ceiling',4, 1],
@@ -80,7 +79,7 @@
     }
     function startShift(){
       for(let i = 0; i<[3, 3, 4, 4][g.diff]; i++)addTask();
-      if(rnd(50) === 0){
+      if(rnd(max(50 - g.day, 10)) === 0){
         screen = 'records';
         note('The chicken has left the confidential corporate records room slightly open.\nAUTHORIZED PERSONNEL ONLY! VIOLATORS WILL BE DEALT WITH BY THE CHICKEN!')
       } else {
