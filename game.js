@@ -413,9 +413,7 @@
         heading("WINGSLOP EMPLOYEE TERMINAL");
         if (message) paragraph(message);
         buttons([
-            ["VIEW TASKS", () => goTo("tasks")],
             ["WORK ON TASK", () => goTo("work")],
-            ["VIEW CUSTOMERS", () => goTo("customers")],
             ["SERVE CUSTOMER", () => goTo("serve")],
             ["CHECK INVENTORY", () => goTo("pantry")],
             ["CHECK SANITATION", () => goTo("sanitation")],
