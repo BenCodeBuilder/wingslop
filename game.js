@@ -79,7 +79,7 @@
     }
     function startShift(){
       for(let i = 0; i<[3, 3, 4, 4][g.diff]; i++)addTask();
-      if(rnd(max(50 - g.day, 10)) === 0){
+      if(rnd(Math.max(50 - g.day, 10)) === 0){
         screen = 'records';
         note('The chicken has left the confidential corporate records room slightly open.\nAUTHORIZED PERSONNEL ONLY! VIOLATORS WILL BE DEALT WITH BY THE CHICKEN!')
       } else {
