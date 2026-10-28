@@ -5,7 +5,20 @@
     const names = ['Bob', 'Gerald', 'Geraldine', 'Boris', 'Bobbius', 'Beefo', 'Kookie', 'Gerard', 'Mortimer', 'Gorglebop'];
     const menu = ['Buffalo wings', 'Nuclear wings', 'Slop nachos'];
     const conds = ['nuclear biohazard', 'nearly uninhabitable', 'filthy', 'messy', 'squeaky clean'];
-    const taskDefs = [['Clean the fryer', 3, 10], ['Mop the floor', 2, 8], ['Investigate suspicious sounds in the break room', 2, 5], ['Attend meeting held by the chicken mascot', 4, 2], ['Discover why the freezer is warmer than the dining area', 2, 4], ['Kick Gerard out of the employee bathroom', 3, 5], ['Tighten security to the experimental slop room', 4, 7], ['Replace the employee of the month photo (It\'s been the chicken the past 200 times)', 2, 1]];
+    const taskDefs = [
+    ['Clean the fryer', 3, 10], 
+    ['Mop the floor', 2, 8], 
+    ['Investigate suspicious sounds in the break room', 2, 5], 
+    ['Attend meeting held by the chicken mascot', 4, 2],
+    ['Discover why the freezer is warmer than the dining area', 2, 4],
+    ['Kick Gerard out of the employee bathroom', 3, 5], 
+    ['Tighten security to the experimental slop room', 4, 7],
+    ['Replace the employee of the month photo (It\'s been the chicken the past 200 times)', 2, 1],
+    ['Remove a suspiciously human-shaped stain from the ceiling',4, 1],
+    ['Pay your respects to the chicken statue in the break room', 2, 3],
+    ['Find out who keeps ordering the Nuclear Wings from 1842', 3, 5],
+    ['Visit the grave of the forsaken discontinued menu item: The Nuclear Pizza Roll', 2, 5]
+  ];
     let g = null;
     let screen = 'intro';
     let message = '';
@@ -15,10 +28,8 @@
     let hs = 0;
     let pattern = 0;
     const esc = s => String(s).replace(/[&<>"']/g, c => ({
-      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
     }[c]));
     
-    // The button changes this setting. Automatic task repetition is not implemented yet.
     let autoFinish = false;
 
     function toggleAutoFinish() {
