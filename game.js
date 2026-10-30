@@ -15,7 +15,8 @@
     'CAUTION: BIOHAZARD',
     'WINGNOBYL',
     'FORT KNOX',
-    'ARMAGEDDON'
+    'ARMAGEDDON',
+    'RADIOACTIVO'
     ];
     const taskDefs = [
     ['Clean the fryer', 3, 10], 
@@ -69,11 +70,15 @@
     }
     function init(diff, ret){
       g = {
-        diff, ret, day: 1, action: 1, served: 0, completed: 0, money: 0, xp: 0, rep: 50, wage: 20, bonus: 1, paymult: 1, rank: 0, security: 0, san: 100, pantry: {
+        diff, ret, nuke: 0, day: 1, action: 1, served: 0, completed: 0, money: 0, xp: 0, rep: 50, wage: 20, bonus: 1, paymult: 1, rank: 0, security: 0, san: 100, pantry: {
           'Buffalo wings': 100, 'Nuclear wings': 40, 'Slop nachos': 20
         }, customers: [], tasks: [], ended: false
       };
       log = [];
+      if(g.diff === 3 && unlockedEndings.includes("WINGNOBYL")){
+      menu.push("Nuclear nachos")
+      g.pantry["Nuclear nachos"] = 15
+      }
       note('WELCOME TO YOUR SHIFT AT WINGSLOP. The chicken expects excellence.');
       startShift()
     }
@@ -218,6 +223,12 @@
         if(t.progress >= t.duration){
           g.xp += t.duration*10;
           g.completed++;
+          if(t.name === 'Restock nuclear nachos'){
+          g.nuke++
+          if(g.nuke >= 3){
+            return end("RADIOACTIVO", "As your eyes close on WingSlop for the last time, you can't help but wonder: How many people has the chicken done this to?")
+          }
+          }
           if(t.name === 'Mop the floor'){
             g.san += (Math.ceil(Math.random()*5))*3
             g.san = Math.min(100, g.san)
@@ -230,7 +241,7 @@
           if(t.name.startsWith('Restock ')){
             let item = menu.find(x => t.name === 'Restock '+x.toLowerCase());
             if(item)g.pantry[item] += {
-              'Buffalo wings': 50, 'Nuclear wings': 25, 'Slop nachos': 20
+              'Buffalo wings': 50, 'Nuclear wings': 20, 'Slop nachos': 20, 'Nuclear nachos': 15,
             }[item]
           }
           g.tasks.splice(index, 1);
@@ -252,9 +263,11 @@
           g.customers.splice(index, 1);
           note('You served '+c.name+'! (+50 XP)');
           for(let item of menu){
-            if(g.pantry[item] <= 12 && !g.tasks.some(t => t.name === 'Restock '+item.toLowerCase()))g.tasks.push({
+            if(g.pantry[item] <= 12 && !g.tasks.some(t => t.name === 'Restock '+item.toLowerCase())){
+              g.tasks.push({
               name: 'Restock '+item.toLowerCase(), duration: item === 'Slop nachos'?4: 3, progress: 0
             })
+          }
           }
         }
         tick()
@@ -426,7 +439,6 @@
             ["No", () => init(chosenDiff, false)]
         ]);
     }
-
     function showEnding() {
         heading("ENDING UNLOCKED: " + g.ending);
         paragraph("Total endings unlocked: "+unlockedEndings.length+"/"+allEndings.length)
