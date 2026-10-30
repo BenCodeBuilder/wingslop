@@ -392,7 +392,7 @@
 
     function showEnding() {
         heading("ENDING UNLOCKED: " + g.ending);
-        paragraph("Total endings unlocked: "+endingsUnlocked.length+"/8")
+        paragraph("Total endings unlocked: "+unlockedEndings.length+"/8")
         paragraph(message);
         buttons([["START ANOTHER SHIFT (NEW GAME)", () => {
             g = null;
