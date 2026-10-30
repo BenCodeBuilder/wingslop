@@ -1,4 +1,5 @@
 'use strict';
+    const unlockedEndings = JSON.parse(localStorage.getItem('endings')) || []
     const $ = s => document.querySelector(s);
     const rnd = n => Math.floor(Math.random() * n);
     const pick = a => a[rnd(a.length)];
@@ -49,6 +50,10 @@
       screen = 'end';
       note(story);
       g.ending = title;
+      if(!unlockedEndings.includes(title)){
+        unlockedEndings.push(title)
+        localStorage.setItem('endings',JSON.stringify(unlockedEndings))
+      }
       render()
     }
     function init(diff, ret){
@@ -360,7 +365,13 @@
 
     // ===== INDIVIDUAL SCREENS =====
     function showIntro() {
+        if(unlockedEndings.length > 0){
+        heading("WELCOME BACK, SLOPMAKER");
+        }
+        else{
         heading("WELCOME, FUTURE SLOPMAKER");
+        }
+        paragraph("Endings unlocked: "+unlockedEndings.length+"/8")
         paragraph("Employment is mandatory. Benefits are classified.\n\nChoose your difficulty and retirement policy.");
         buttons([
             ["1. MILD", () => choose(0)],
@@ -381,6 +392,7 @@
 
     function showEnding() {
         heading("ENDING UNLOCKED: " + g.ending);
+        paragraph("Total endings unlocked: "+endingsUnlocked.length+"/8")
         paragraph(message);
         buttons([["START ANOTHER SHIFT (NEW GAME)", () => {
             g = null;
