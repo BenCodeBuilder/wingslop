@@ -208,7 +208,7 @@
           g.xp += t.duration*10;
           g.completed++;
           if(t.name === 'Mop the floor'){
-            g.san += (Math.ceil(Math.random()*5))*5
+            g.san += (Math.ceil(Math.random()*5))*3
             g.san = Math.min(100, g.san)
             note('WingSlop has been cleaned. Sanitation is now '+cond()+'.')
           }
