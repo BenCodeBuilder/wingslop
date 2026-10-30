@@ -6,6 +6,17 @@
     const names = ['Bob', 'Gerald', 'Geraldine', 'Boris', 'Bobbius', 'Beefo', 'Kookie', 'Gerard', 'Mortimer', 'Gorglebop'];
     const menu = ['Buffalo wings', 'Nuclear wings', 'Slop nachos'];
     const conds = ['nuclear biohazard', 'nearly uninhabitable', 'filthy', 'messy', 'squeaky clean'];
+    const allEndings = [
+    'THE ONE WHO KNEW',
+    'EMPLOYEE OF THE MILLENNIUM',
+    'THE GREAT ESCAPE',
+    'UNEMPLOYED',
+    'INNER CIRCLE',
+    'CAUTION: BIOHAZARD',
+    'WINGNOBYL',
+    'FORT KNOX',
+    'ARMAGEDDON'
+    ];
     const taskDefs = [
     ['Clean the fryer', 3, 10], 
     ['Mop the floor', 2, 12], 
@@ -374,7 +385,7 @@
         else{
         heading("WELCOME, FUTURE SLOPMAKER");
         }
-        paragraph("Endings unlocked: "+unlockedEndings.length+"/9")
+        paragraph("Endings unlocked: "+unlockedEndings.length+"/"+allEndings.length)
         paragraph("Employment is mandatory. Benefits are classified.\n\nChoose your difficulty and retirement policy.");
         buttons([
             ["1. MILD", () => choose(0)],
@@ -382,6 +393,29 @@
             ["3. SPICY", () => choose(2)],
             ["4. NUCLEAR", () => choose(3)]
         ]);
+        buttons([
+          ["ENDING COLLECTION", () => goTo("endings")]
+        ])
+    }
+
+    function showEndings(){
+      heading("WINGSLOP ENDING COLLECTION")
+      buttons([
+      ["<-- BACK", () => goTo("intro")]
+      ])
+
+      const grid = document.createElement("div");
+      grid.className = "ending-grid";
+      main.append(grid);
+
+      for(let ending of allEndings){
+        const card = document.createElement("div")
+        card.className = "ending-card"
+        card.textContent = unlockedEndings.includes(ending)
+        ? "🏆 "+ending
+        : "🔒 ????????"
+        grid.append(card)
+      }
     }
 
     function showRetirement() {
@@ -395,7 +429,7 @@
 
     function showEnding() {
         heading("ENDING UNLOCKED: " + g.ending);
-        paragraph("Total endings unlocked: "+unlockedEndings.length+"/9")
+        paragraph("Total endings unlocked: "+unlockedEndings.length+"/"+allEndings.length)
         paragraph(message);
         buttons([["START ANOTHER SHIFT (NEW GAME)", () => {
             g = null;
@@ -514,7 +548,7 @@
 
         if (screen === "intro") return showIntro();
         if (screen === "ret") return showRetirement();
-
+        if (screen === "endings") return showEndings();
         showStats();
 
         if (screen === "end") return showEnding();
