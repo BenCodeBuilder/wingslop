@@ -59,7 +59,7 @@
     function init(diff, ret){
       g = {
         diff, ret, day: 1, action: 1, served: 0, completed: 0, money: 0, xp: 0, rep: 50, wage: 20, bonus: 1, paymult: 1, rank: 0, security: 0, san: 100, pantry: {
-          'Buffalo wings': 100, 'Nuclear wings': 50, 'Slop nachos': 20
+          'Buffalo wings': 100, 'Nuclear wings': 40, 'Slop nachos': 20
         }, customers: [], tasks: [], ended: false
       };
       log = [];
