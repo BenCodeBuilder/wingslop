@@ -156,6 +156,9 @@
           g.customers.splice(i, 1)
         }
       }
+      if(g.tasks.includes("Restock nuclear wings") && Math.random() < 0.1 && g.san <= 60){
+        end('WINGNOBYL','A nuclear explosion occured at WingSlop. You AND the chicken no longer exist... Perhaps it had something to do with the lack of nuclear wings in stock...')
+      }
       if(rnd([5, 4, 3, 2][g.diff]) === 0){
         let c = {
           name: pick(names), order: pick(menu), quantity: 1+rnd(5), patience: 50+rnd(51)
@@ -283,8 +286,7 @@
       if(hs >= 5)return end('CAUTION: BIOHAZARD', 'The inspector defeated the chicken at rock-paper-scissors and condemned WingSlop as a biohazard.');
       render()
     }
-    // ===== WEB PAGE HELPERS =====
-    // These functions create HTML for us. You rarely need to edit them.
+
     let main;
 
     function heading(text) {
@@ -371,7 +373,7 @@
         else{
         heading("WELCOME, FUTURE SLOPMAKER");
         }
-        paragraph("Endings unlocked: "+unlockedEndings.length+"/8")
+        paragraph("Endings unlocked: "+unlockedEndings.length+"/9")
         paragraph("Employment is mandatory. Benefits are classified.\n\nChoose your difficulty and retirement policy.");
         buttons([
             ["1. MILD", () => choose(0)],
@@ -392,7 +394,7 @@
 
     function showEnding() {
         heading("ENDING UNLOCKED: " + g.ending);
-        paragraph("Total endings unlocked: "+unlockedEndings.length+"/8")
+        paragraph("Total endings unlocked: "+unlockedEndings.length+"/9")
         paragraph(message);
         buttons([["START ANOTHER SHIFT (NEW GAME)", () => {
             g = null;
