@@ -232,7 +232,7 @@
         }
       }
       if(g.tasks.some(t => t.name === "Restock nuclear wings") && Math.random() < 0.1 && g.san <= 60){
-        end('WINGNOBYL','A nuclear explosion occured at WingSlop. You AND the chicken no longer exist... Perhaps it had something to do with the lack of nuclear wings in stock...')
+       return end('WINGNOBYL','A nuclear explosion occured at WingSlop. You AND the chicken no longer exist... Perhaps it had something to do with the lack of nuclear wings in stock...')
       }
       if(rnd([5, 4, 3, 2][g.diff]) === 0){
         let c = {
@@ -284,9 +284,7 @@
           g.completed++;
           if(t.name === 'Restock nuclear nachos'){
           g.nuke++
-          if(g.nuke >= 3){
             return end("RADIOACTIVO", "As your eyes close on WingSlop for the last time, you can't help but wonder: How many people has the chicken done this to?")
-          }
           }
           if(t.name === 'Mop the floor'){
             g.san += (Math.ceil(Math.random()*5))*4
@@ -300,15 +298,15 @@
           if(t.name.startsWith('Restock ')){
             let item = menu.find(x => t.name === 'Restock '+x.toLowerCase());
             if(item)g.pantry[item] += {
-              'Buffalo wings': 50, 'Nuclear wings': 20, 'Slop nachos': 20, 'Nuclear nachos': 15,
+              'Buffalo wings': 50, 'Nuclear wings': 20, 'Slop nachos': 20, 'Nuclear nachos': 10,
             }[item]
           }
           g.tasks.splice(index, 1);
           let messages = taskMessages[t.name]
           note(
             messages
-            ? pick(messages)+ `(+${t.duration*10}`
-          : `'${t.name}' task complete! (+${t.duration*10}+) XP`
+            ? pick(messages)+ `(+${t.duration*10} XP)`
+          : `'${t.name}' task complete! (+${t.duration*10} XP)`
           )
           
         }
