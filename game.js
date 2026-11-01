@@ -490,8 +490,8 @@
         const card = document.createElement("div")
         card.className = "ending-card"
         card.textContent = unlockedEndings.includes(ending)
-        ? "🏆 "+ending
-        : "🔒 ????????"
+        ? "🏆 "+ending+" (UNLOCKED) "
+        : "🔒 "+ending+" (LOCKED) "
         grid.append(card)
       }
     }
