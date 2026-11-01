@@ -293,7 +293,7 @@
           }
           if(t.name === 'Tighten security to the experimental slop room'){
             g.security++;
-            if(g.security >= 10)return end('FORT KNOX', 'The chicken congratulates you on your commitment to security. No one will EVER know what happens behind the experimental slop room door. You will NEVER leave WingSlop.')
+            if(g.security >= 5)return end('FORT KNOX', 'The chicken congratulates you on your commitment to security. No one will EVER know what happens behind the experimental slop room door. You will NEVER leave WingSlop.')
           }
           if(t.name.startsWith('Restock ')){
             let item = menu.find(x => t.name === 'Restock '+x.toLowerCase());
