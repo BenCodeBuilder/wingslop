@@ -6,18 +6,25 @@
     const names = ['Bob', 'Gerald', 'Geraldine', 'Boris', 'Bobbius', 'Beefo', 'Kookie', 'Gerard', 'Mortimer', 'Gorglebop'];
     const menu = ['Buffalo wings', 'Nuclear wings', 'Slop nachos'];
     const conds = ['nuclear biohazard', 'nearly uninhabitable', 'filthy', 'messy', 'squeaky clean'];
-    const allEndings = [
-    'THE ONE WHO KNEW',
-    'EMPLOYEE OF THE MILLENNIUM',
-    'THE GREAT ESCAPE',
-    'UNEMPLOYED',
-    'INNER CIRCLE',
-    'CAUTION: BIOHAZARD',
-    'WINGNOBYL',
-    'FORT KNOX',
-    'ARMAGEDDON',
-    'RADIOACTIVO'
-    ];
+const allEndings = [
+    {name: 'THE ONE WHO KNEW', collection: 'Welcome to WingSlop'},
+    {name: 'EMPLOYEE OF THE MILLENNIUM', collection: 'Welcome to WingSlop'},
+    {name: 'THE GREAT ESCAPE', collection: 'Welcome to WingSlop'},
+    {name: 'UNEMPLOYED', collection: 'Welcome to WingSlop'},
+    {name: 'INNER CIRCLE', collection: 'Welcome to WingSlop'},
+    {name: 'CAUTION: BIOHAZARD', collection: 'Welcome to WingSlop'},
+    {name: 'WINGNOBYL', collection: 'Welcome to WingSlop'},
+    {name: 'FORT KNOX', collection: 'Welcome to WingSlop'},
+    {name: 'ARMAGEDDON', collection: 'Welcome to WingSlop'},
+    {name: 'RADIOACTIVO', collection: 'Welcome to WingSlop'}
+];
+
+    const collections = [
+      {name: 'Welcome to WingSlop', complete: allEndings.filter(e => e.collection === 'Welcome to WingSlop').every(e => unlockedEndings.includes(e.name))}
+    ]
+
+    const getCollection = name => allEndings.find(e => e.name === name)?.collection;
+
     const taskDefs = [
     ['Clean the fryer', 3, 10], 
     ['Mop the floor', 2, 14], 
@@ -119,8 +126,8 @@
       screen = 'end';
       note(story);
       g.ending = title;
-      if(!unlockedEndings.includes(title)){
-        unlockedEndings.push(title)
+      if(!unlockedEndings.some(e => e.name === title)){
+        unlockedEndings.push({name: title, collection: getCollection(title)})
         localStorage.setItem('endings',JSON.stringify(unlockedEndings))
       }
       render()
@@ -321,7 +328,7 @@
         else {
           g.pantry[c.order] -= c.quantity;
           g.xp += 50;
-          g.rep += 2;
+          g.rep += 5;
           g.served++;
           g.customers.splice(index, 1);
           note('You served '+c.name+'! (+50 XP)');
@@ -479,21 +486,29 @@
       buttons([
       ["<-- BACK", () => goTo("intro")]
       ])
-
+      heading("\nWELCOME TO WINGSLOP COLLECTION")
       const grid = document.createElement("div");
       grid.className = "ending-grid";
       main.append(grid);
 
-      for(let ending of allEndings){
+      for(let i = 0; i < allEndings.length; i++){
+        const ending = allEndings[i]
         const card = document.createElement("div")
         card.className = "ending-card"
-        card.textContent = unlockedEndings.includes(ending)
-        ? "🏆 "+ending+" (UNLOCKED) "
-        : "🔒 "+ending+" (LOCKED) "
-        grid.append(card)
+       if(ending.collection === collections[0].name || collections[ending.collection - 1].complete){
+        if(unlockedEndings.some(e => e.name === ending.name)){
+       card.textContent  = "🏆 "+ending.name+" (UNLOCKED) "
+        }
+        else{
+           card.textContent  = "🔒 "+ending.name+" (LOCKED) "
+        }
       }
+      else{
+        card.textContent = "⚠️ ?????? (CLASSFIED) "
+      }
+      grid.append(card)
     }
-
+  }
     function showRetirement() {
         heading("RETIREMENT POLICY");
         paragraph("Enable retirement endings? (Day 10 or $375.)");
