@@ -129,6 +129,7 @@ const allEndings = [
       if(!unlockedEndings.some(e => e.name === title)){
         unlockedEndings.push({name: title, collection: getCollection(title)})
         localStorage.setItem('endings',JSON.stringify(unlockedEndings))
+          
       }
       render()
     }
@@ -139,7 +140,7 @@ const allEndings = [
         }, customers: [], tasks: [], ended: false
       };
       log = [];
-      if(g.diff === 3 && unlockedEndings.includes("WINGNOBYL")){
+      if(g.diff === 3 && unlockedEndings.some(e => e.name === "WINGNOBYL")){
       if(!menu.includes("Nuclear nachos")){
       menu.push("Nuclear nachos")
       }
