@@ -20,7 +20,7 @@
     ];
     const taskDefs = [
     ['Clean the fryer', 3, 10], 
-    ['Mop the floor', 2, 12], 
+    ['Mop the floor', 2, 14], 
     ['Investigate suspicious sounds in the break room', 2, 5], 
     ['Attend meeting held by the chicken mascot', 4, 2],
     ['Discover why the freezer is warmer than the dining area', 2, 4],
@@ -29,8 +29,65 @@
     ['Remove a suspiciously human-shaped stain from the ceiling',4, 1],
     ['Pay your respects to the chicken statue in the break room', 2, 3],
     ['Find out who keeps ordering the Nuclear Wings from 1842', 3, 5],
-    ['Visit the grave of the forsaken discontinued menu item: The Nuclear Pizza Roll', 2, 5]
+    ['Visit the grave of the forsaken discontinued menu item: The Nuclear Pizza Roll', 2, 5],
+    ['Kick Gerard out of the employee bathroom', 3, 6],
   ];
+
+    const taskMessages = {
+      'Clean the fryer': [
+        "You clean the fryer. The chicken smiles from his office."
+      ],
+      'Mop the floor': [
+        "You mop the floor. The restaurant is slightly cleaner."
+      ],
+      'Investigate suspicious sounds in the break room': [
+        "You walk in on the chicken practicing his human voice. He asks you to forget.",
+        "Just a family of rats, nothing too strange by WingSlop standards.",
+        "You walk in on other workers planning a surprise birthday party for the chicken. (At WingSlop, it's always his birthday)",
+      ],
+     'Attend meeting held by the chicken mascot': [
+        "The meeting was about how to sell more nuclear wings. You had to be woken up by a co-worker halfway through.",
+        "During the meeting, you discussed whether or not to put a lock on the employee bathroom.",
+        "During the meeting, The chicken almost gave away the name of the next menu item."
+      ],
+      'Discover why the freezer is warmer than the dining area': [
+        "You realize that the freezer is 100 degrees Fahrenheit. You don't know why.",
+        "You realize the dining area is 28 degrees Fahrenheit. You don't know why."
+      ],
+      'Tighten security to the experimental slop room': [
+        "You place a guard outside the experimental slop room.",
+        "You put more barbed wire on the door to the experimental slop room.",
+        "You put another KEEP OUT sign on the door to the experimental slop room. Like that's going to stop anyone..."
+      ],
+      'Replace the employee of the month photo (It\'s been the chicken the past 200 times)':[
+        "You replace the photo. (It's him again.) The chicken nods in approval."
+      ],
+
+      'Remove a suspiciously human-shaped stain from the ceiling':[
+        "You remove the stain. It comes back in an instant.",
+        "You remove the stain and the ceiling cracks open. A guy falls out. You shrug and walk away."
+      ],
+
+      'Pay your respects to the chicken statue in the break room':[
+        "You bow down to the statue. Feeling enlightened, you continue to go about your day.",
+        "You cry and confess everything you've done against the will of the chicken to the statue",
+        "You present a human sacrifice (Bobbius) to the statue. The chicken smiles upon you."
+      ],
+
+      'Find out who keeps ordering the Nuclear Wings from 1842':[
+        "Turns out, Gerard keeps ordering those nuclear wings. Maybe that's why he needs the bathroom so bad...",
+      ],
+
+      'Visit the grave of the forsaken discontinued menu item: The Nuclear Pizza Roll':[
+        "You visit the grave, begging for it to return to the menu.",
+      ],
+
+      'Kick Gerard out of the employee bathroom':[
+        "Gerard refuses to leave, so you call the chicken over. He tases him and throws him outside of the restaurant.",
+        "Gerard complies. For once.",
+        "You threaten to cut off Gerard's nuclear wing supply, so he leaves in an instant."
+      ],
+    }
     let g = null;
     let screen = 'intro';
     let message = '';
@@ -76,7 +133,9 @@
       };
       log = [];
       if(g.diff === 3 && unlockedEndings.includes("WINGNOBYL")){
+      if(!menu.includes("Nuclear nachos")){
       menu.push("Nuclear nachos")
+      }
       g.pantry["Nuclear nachos"] = 15
       }
       note('WELCOME TO YOUR SHIFT AT WINGSLOP. The chicken expects excellence.');
@@ -172,7 +231,7 @@
           g.customers.splice(i, 1)
         }
       }
-      if(g.tasks.includes("Restock nuclear wings") && Math.random() < 0.1 && g.san <= 60){
+      if(g.tasks.some(t => t.name === "Restock nuclear wings") && Math.random() < 0.1 && g.san <= 60){
         end('WINGNOBYL','A nuclear explosion occured at WingSlop. You AND the chicken no longer exist... Perhaps it had something to do with the lack of nuclear wings in stock...')
       }
       if(rnd([5, 4, 3, 2][g.diff]) === 0){
@@ -245,7 +304,13 @@
             }[item]
           }
           g.tasks.splice(index, 1);
-          note(`'${t.name}' task complete! (+${t.duration*10} XP)`)
+          let messages = taskMessages[t.name]
+          note(
+            messages
+            ? pick(messages)+ `(+${t.duration*10}`
+          : `'${t.name}' task complete! (+${t.duration*10}`
+          )
+          
         }
         tick();
         return
