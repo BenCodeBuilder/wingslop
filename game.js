@@ -129,7 +129,9 @@ const allEndings = [
       if(!unlockedEndings.some(e => e.name === title)){
         unlockedEndings.push({name: title, collection: getCollection(title)})
         localStorage.setItem('endings',JSON.stringify(unlockedEndings))
-          
+           gtag('event', 'ending_unlocked', {
+        ending_name: title
+    });
       }
       render()
     }
