@@ -308,7 +308,7 @@
           note(
             messages
             ? pick(messages)+ `(+${t.duration*10}`
-          : `'${t.name}' task complete! (+${t.duration*10}`
+          : `'${t.name}' task complete! (+${t.duration*10}+) XP`
           )
           
         }
