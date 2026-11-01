@@ -20,7 +20,7 @@ const allEndings = [
 ];
 
     const collections = [
-      {name: 'Welcome to WingSlop', complete: allEndings.filter(e => e.collection === 'Welcome to WingSlop').every(unlockedEndings.some(u => u.name === e.name))}
+      {name: 'Welcome to WingSlop', complete: allEndings.filter(e => e.collection === 'Welcome to WingSlop').every(e => unlockedEndings.some(u => u.name === e.name))}
     ]
 
     const getCollection = name => allEndings.find(e => e.name === name)?.collection;
