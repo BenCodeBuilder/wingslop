@@ -520,7 +520,7 @@ const allEndings = [
   }
     function showRetirement() {
         heading("RETIREMENT POLICY");
-        paragraph("Enable retirement endings? (Day 10 or $375.)");
+        paragraph("Enable retirement endings? (Day 10 or $300.)");
         buttons([
             ["Yes", () => init(chosenDiff, true)],
             ["No", () => init(chosenDiff, false)]
