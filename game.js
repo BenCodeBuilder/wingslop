@@ -463,13 +463,14 @@ const allEndings = [
     // ===== INDIVIDUAL SCREENS =====
     function showIntro() {
         if(unlockedEndings.length > 0){
-        heading("WELCOME BACK, SLOPMAKER");
+        heading("WELCOME BACK TO WINGSLOP");
         }
         else{
-        heading("WELCOME, FUTURE SLOPMAKER");
+        heading("WELCOME TO WINGSLOP");
         }
         paragraph("Endings unlocked: "+unlockedEndings.length+"/"+allEndings.length)
-        paragraph("Employment is mandatory. Benefits are classified.\n\nChoose your difficulty and retirement policy.");
+        paragraph("A \"perfectly normal\" restaurant with 10 endings, VERY questionable food, and a chicken who knows too much about everything. Can you uncover all 10 endings?");
+        paragraph("Let's find out! Choose your difficulty or view all possible endings! You can click an ending to learn more.")
         buttons([
             ["1. MILD", () => choose(0)],
             ["2. MEDIUM", () => choose(1)],
@@ -520,7 +521,7 @@ const allEndings = [
   }
     function showRetirement() {
         heading("RETIREMENT POLICY");
-        paragraph("Enable retirement endings? (Day 10 or $300.)");
+        paragraph("Would you like to enable optional endings for earning $300 or surviving 10 shifts?");
         buttons([
             ["Yes", () => init(chosenDiff, true)],
             ["No", () => init(chosenDiff, false)]
