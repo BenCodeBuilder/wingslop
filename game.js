@@ -7,20 +7,20 @@
     const menu = ['Buffalo wings', 'Nuclear wings', 'Slop nachos'];
     const conds = ['nuclear biohazard', 'nearly uninhabitable', 'filthy', 'messy', 'squeaky clean'];
 const allEndings = [
-    {name: 'THE ONE WHO KNEW', collection: 'Welcome to WingSlop'},
-    {name: 'EMPLOYEE OF THE MILLENNIUM', collection: 'Welcome to WingSlop'},
-    {name: 'THE GREAT ESCAPE', collection: 'Welcome to WingSlop'},
-    {name: 'UNEMPLOYED', collection: 'Welcome to WingSlop'},
-    {name: 'INNER CIRCLE', collection: 'Welcome to WingSlop'},
-    {name: 'CAUTION: BIOHAZARD', collection: 'Welcome to WingSlop'},
-    {name: 'WINGNOBYL', collection: 'Welcome to WingSlop'},
-    {name: 'FORT KNOX', collection: 'Welcome to WingSlop'},
-    {name: 'ARMAGEDDON', collection: 'Welcome to WingSlop'},
-    {name: 'RADIOACTIVO', collection: 'Welcome to WingSlop'}
+    {name: 'THE ONE WHO KNEW', collection: 'Welcome to WingSlop', hint: "Get caught sneaking into the chicken's file cabinet"},
+    {name: 'EMPLOYEE OF THE MILLENNIUM', collection: 'Welcome to WingSlop', hint: "Work at WingSlop for 10 days"},
+    {name: 'THE GREAT ESCAPE', collection: 'Welcome to WingSlop', hint: "Make $375 at WingSlop"},
+    {name: 'UNEMPLOYED', collection: 'Welcome to WingSlop', hint: "Get fired from WingSlop"},
+    {name: 'INNER CIRCLE', collection: 'Welcome to WingSlop', hint: "Get 100 or more reputation"},
+    {name: 'CAUTION: BIOHAZARD', collection: 'Welcome to WingSlop', hint: "Make the sanitation dangerously low"},
+    {name: 'WINGNOBYL', collection: 'Welcome to WingSlop', hint: "Run out of nuclear wings, and don't restock them"},
+    {name: 'FORT KNOX', collection: 'Welcome to WingSlop', hint: "Make the experimental slop room impenetrable"},
+    {name: 'ARMAGEDDON', collection: 'Welcome to WingSlop', hint: "Get through enough shifts that you find the chicken's file cabinet, and then tell his government name to the health inspector on NUCLEAR difficulty"},
+    {name: 'RADIOACTIVO', collection: 'Welcome to WingSlop', hint: "Get the WingNobyl ending, then play on NUCLEAR difficulty and sell out of nuclear nachos."}
 ];
 
     const collections = [
-      {name: 'Welcome to WingSlop', complete: allEndings.filter(e => e.collection === 'Welcome to WingSlop').every(e => unlockedEndings.some(u => u.name === e.name))}
+      { name: 'Welcome to WingSlop', complete: allEndings.filter(e => e.collection === 'Welcome to WingSlop').every(e => unlockedEndings.some(u => u.name === e.name))}
     ]
 
     const getCollection = name => allEndings.find(e => e.name === name)?.collection;
@@ -129,9 +129,6 @@ const allEndings = [
       if(!unlockedEndings.some(e => e.name === title)){
         unlockedEndings.push({name: title, collection: getCollection(title)})
         localStorage.setItem('endings',JSON.stringify(unlockedEndings))
-           gtag('event', 'ending_unlocked', {
-        ending_name: title
-    });
       }
       render()
     }
@@ -503,7 +500,15 @@ const allEndings = [
        card.textContent  = "🏆 "+ending.name+" (UNLOCKED) "
         }
         else{
-           card.textContent  = "🔒 "+ending.name+" (LOCKED) "
+            let originalText = "🔒 "+ending.name+" (LOCKED) "
+            card.textContent = originalText
+
+            let flipped = false
+
+            card.addEventListener("click", () => {
+              flipped = !flipped 
+              card.textContent = flipped ? ending.hint : originalText
+            })
         }
       }
       else{
