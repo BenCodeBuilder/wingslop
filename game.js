@@ -31,7 +31,7 @@ const allEndings = [
     ['Investigate suspicious sounds in the break room', 2, 5], 
     ['Attend meeting held by the chicken mascot', 4, 2],
     ['Discover why the freezer is warmer than the dining area', 2, 4],
-    ['Tighten security to the experimental slop room', 4, 7],
+    ['Tighten security to the experimental slop room', 4, 9],
     ['Replace the employee of the month photo (It\'s been the chicken the past 200 times)', 2, 1],
     ['Remove a suspiciously human-shaped stain from the ceiling',4, 1],
     ['Pay your respects to the chicken statue in the break room', 2, 3],
