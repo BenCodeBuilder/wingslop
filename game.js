@@ -469,7 +469,7 @@ const allEndings = [
         heading("WELCOME TO WINGSLOP");
         }
         paragraph("Endings unlocked: "+unlockedEndings.length+"/"+allEndings.length)
-        paragraph("A \"perfectly normal\" restaurant with 10 endings, VERY questionable food, and a chicken who knows too much about everything. Can you uncover all 10 endings?");
+        paragraph("A \"perfectly normal\" restaurant management simulator with 10 endings, VERY questionable food, and a chicken who knows too much about everything. Can you uncover all 10 endings?");
         paragraph("Let's find out! Choose your difficulty or view all possible endings! You can click an ending to learn more.")
         buttons([
             ["1. MILD", () => choose(0)],
