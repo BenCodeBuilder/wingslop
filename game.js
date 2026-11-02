@@ -483,6 +483,7 @@ const allEndings = [
 
     function showEndings(){
       heading("WINGSLOP ENDING COLLECTION")
+      heading("Click an ending for help getting it!")
       buttons([
       ["<-- BACK", () => goTo("intro")]
       ])
