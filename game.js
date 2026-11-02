@@ -9,7 +9,7 @@
 const allEndings = [
     {name: 'THE ONE WHO KNEW', collection: 'Welcome to WingSlop', hint: "Get caught sneaking into the chicken's file cabinet"},
     {name: 'EMPLOYEE OF THE MILLENNIUM', collection: 'Welcome to WingSlop', hint: "Work at WingSlop for 10 days"},
-    {name: 'THE GREAT ESCAPE', collection: 'Welcome to WingSlop', hint: "Make $375 at WingSlop"},
+    {name: 'THE GREAT ESCAPE', collection: 'Welcome to WingSlop', hint: "Make $300 at WingSlop"},
     {name: 'UNEMPLOYED', collection: 'Welcome to WingSlop', hint: "Get fired from WingSlop"},
     {name: 'INNER CIRCLE', collection: 'Welcome to WingSlop', hint: "Get 100 or more reputation"},
     {name: 'CAUTION: BIOHAZARD', collection: 'Welcome to WingSlop', hint: "Make the sanitation dangerously low"},
@@ -106,7 +106,7 @@ const allEndings = [
     const esc = s => String(s).replace(/[&<>"']/g, c => ({
     }[c]));
     
-    let autoFinish = false;
+    let autoFinish = true;
 
     function toggleAutoFinish() {
         autoFinish = !autoFinish;
@@ -165,7 +165,7 @@ const allEndings = [
       })
     }
     function startShift(){
-      for(let i = 0; i<[3, 3, 4, 4][g.diff]; i++)addTask();
+      for(let i = 0; i<[2, 2, 2, 3][g.diff]; i++)addTask();
       if(rnd(Math.max(50 - g.day, 10)) === 0){
         screen = 'records';
         note('The chicken has left the confidential corporate records room slightly open.\nAUTHORIZED PERSONNEL ONLY! VIOLATORS WILL BE DEALT WITH BY THE CHICKEN!')
@@ -205,7 +205,7 @@ const allEndings = [
         note('Congratulations! Promoted to '+ranks[g.rank][0]+'!')
       }
       if(g.ret && g.day === 10)return end('EMPLOYEE OF THE MILLENNIUM', 'You have been working for the chicken for 10 days now! You must be a really hard worker!');
-      if(g.ret && g.money >= 375)return end('THE GREAT ESCAPE', 'You now have enough money to never be financially dependent on the chicken again!')
+      if(g.ret && g.money >= 300)return end('THE GREAT ESCAPE', 'You now have enough money to never be financially dependent on the chicken again!')
     }
     function discipline(){
       if(!g.tasks.length)return;
@@ -219,7 +219,7 @@ const allEndings = [
       if(p === '30% Paycheck deduction')g.paymult = .7
     }
     function tick(){
-      if(g.action === 10){
+      if(g.action === 7){
         discipline();
         if(g.ended)return;
         payroll();
