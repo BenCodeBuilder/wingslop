@@ -497,10 +497,9 @@ const allEndings = [
         const ending = allEndings[i]
         const card = document.createElement("div")
         card.className = "ending-card"
-      if (
-    ending.collection === collections[0].name ||
-    collections.find(c => c.name === ending.collection)?.complete
-) {
+    const index = collections.findIndex(c => c.name === ending.collection);
+
+if (index === 0 || (index > 0 && collections[index - 1].complete)) {
         if(unlockedEndings.some(e => e.name === ending.name)){
        card.textContent  = "🏆 "+ending.name+" (UNLOCKED) "
         }
