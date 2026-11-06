@@ -1,6 +1,5 @@
 'use strict';
     const unlockedEndings = JSON.parse(localStorage.getItem('endings')) || []
-    localStorage.setItem("dev", "true")
     const devMode = localStorage.getItem("dev")
     const $ = s => document.querySelector(s);
     const rnd = n => Math.floor(Math.random() * n);
