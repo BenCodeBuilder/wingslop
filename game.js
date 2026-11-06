@@ -1,5 +1,6 @@
 'use strict';
     const unlockedEndings = JSON.parse(localStorage.getItem('endings')) || []
+    localStorage.setItem("dev", "true")
     const devMode = localStorage.getItem("dev")
     const $ = s => document.querySelector(s);
     const rnd = n => Math.floor(Math.random() * n);
@@ -346,7 +347,6 @@ const allEndings = [
               }
             }
           }
-          else{
           g.pantry[c.order] -= c.quantity;
           g.xp += 50;
           g.rep += 5;
@@ -358,7 +358,6 @@ const allEndings = [
               g.tasks.push({
               name: 'Restock '+item.toLowerCase(), duration: item === 'Slop nachos'?4: 3, progress: 0
             })
-          }
           }
           }
         }
