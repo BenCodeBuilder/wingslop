@@ -342,7 +342,7 @@ const allEndings = [
         if(g.pantry[c.order]<c.quantity)note('The kitchen does not have enough '+c.order+' to fulfill the order.');
         else if(g.san<40 && rnd(5) === 4)note('The fryer refused to turn on. Order could not be prepared.');
         else {
-          if(c.order === "Nuclear wings"){
+          if(c.order === "Nuclear wings" && collections[0].complete){
             for(let i = 0; i < c.quantity; i++){
               if(rnd(20) === 0 && !unlockedEndings.some(e => e.name === "CALL TO SAUCE")){
                 customerComplaint()
