@@ -1,5 +1,7 @@
 'use strict';
     const unlockedEndings = JSON.parse(localStorage.getItem('endings')) || []
+    localStorage.setItem("dev", "true")
+    const devMode = localStorage.getItem("dev")
     const $ = s => document.querySelector(s);
     const rnd = n => Math.floor(Math.random() * n);
     const pick = a => a[rnd(a.length)];
@@ -16,11 +18,17 @@ const allEndings = [
     {name: 'WINGNOBYL', collection: 'Welcome to WingSlop', hint: "Run out of nuclear wings, and don't restock them"},
     {name: 'FORT KNOX', collection: 'Welcome to WingSlop', hint: "Make the experimental slop room impenetrable"},
     {name: 'ARMAGEDDON', collection: 'Welcome to WingSlop', hint: "Get through enough shifts that you find the chicken's file cabinet, and then tell his government name to the health inspector on NUCLEAR difficulty"},
-    {name: 'RADIOACTIVO', collection: 'Welcome to WingSlop', hint: "Get the WingNobyl ending, then play on NUCLEAR difficulty and sell out of nuclear nachos."}
+    {name: 'RADIOACTIVO', collection: 'Welcome to WingSlop', hint: "Get the WingNobyl ending, then play on NUCLEAR difficulty and sell out of nuclear nachos."},
 ];
 
+    if(devMode){
+      allEndings.push({name: 'CALL TO SAUCE', collection: 'The Sauce Saga', hint: "???"},
+    {name: 'A BREATH OF CHEMICALLY STABLE AIR', collection: 'The Sauce Saga', hint: "Leave WingSlop"})
+    }
+
     const collections = [
-      { name: 'Welcome to WingSlop', complete: allEndings.filter(e => e.collection === 'Welcome to WingSlop').every(e => unlockedEndings.some(u => u.name === e.name))}
+      {name: 'Welcome to WingSlop', complete: allEndings.filter(e => e.collection === 'Welcome to WingSlop').every(e => unlockedEndings.some(u => u.name === e.name))},
+      {name: "The Sauce Saga", complete: allEndings.filter(e => e.collection === "The Sauce Saga").every(e => unlockedEndings.some(u => u.name === e.name))}
     ]
 
     const getCollection = name => allEndings.find(e => e.name === name)?.collection;
@@ -55,7 +63,7 @@ const allEndings = [
      'Attend meeting held by the chicken mascot': [
         "The meeting was about how to sell more nuclear wings. You had to be woken up by a co-worker halfway through.",
         "During the meeting, you discussed whether or not to put a lock on the employee bathroom.",
-        "During the meeting, The chicken almost gave away the name of the next menu item."
+        "During the meeting, The chicken mentioned that employees are able to leave the restaurant after 30 days of work."
       ],
       'Discover why the freezer is warmer than the dining area': [
         "You realize that the freezer is 100 degrees Fahrenheit. You don't know why.",
@@ -177,7 +185,7 @@ const allEndings = [
     function records(enter){
       if(enter){
         if(rnd(4) === 0)return end('THE ONE WHO KNEW', 'You were a BIT too loud entering the room. The chicken caught you in the act. Goodbye, old friend.');
-        if(rnd(10) === 0)note('You enter without being caught and find a confidential file:\nName: Harland Cluckanders\nAlias: The Chicken\nYear of Employment: 1842\nEmployer: [REDACTED]');
+        if(rnd(5) === 0)note('You enter without being caught and find a confidential file:\nName: Harland Cluckanders\nAlias: The Chicken\nYear of Employment: 1842\nEmployer: [REDACTED]');
         else note('You enter without being caught, but find no interesting documents. Better luck next time...')
       } else note('You decide not to risk the wrath of the chicken.');
       screen = 'main';
@@ -225,6 +233,11 @@ const allEndings = [
         payroll();
         if(g.ended)return;
         g.day++;
+        if(g.day === 31){
+          screen = "leave"
+          render()
+          return
+        }
         g.action = 1
       } else g.action++;
       if(g.rep >= 100)return end('INNER CIRCLE', "Due to your high reputation with the chicken, you have been invited to his luncheon. Maybe he isn't so bad after all...")
@@ -326,6 +339,15 @@ const allEndings = [
         if(g.pantry[c.order]<c.quantity)note('The kitchen does not have enough '+c.order+' to fulfill the order.');
         else if(g.san<40 && rnd(5) === 4)note('The fryer refused to turn on. Order could not be prepared.');
         else {
+          if(c.order === "Nuclear wings"){
+            for(let i = 0; i < c.quantity; i++){
+              if(rnd(20) === 0 && !unlockedEndings.some(e => e.name === "CALL TO SAUCE")){
+                customerComplaint()
+                return
+              }
+            }
+          }
+          else{
           g.pantry[c.order] -= c.quantity;
           g.xp += 50;
           g.rep += 5;
@@ -339,7 +361,9 @@ const allEndings = [
             })
           }
           }
+          }
         }
+        
         tick()
       }
     }
@@ -488,7 +512,6 @@ const allEndings = [
       buttons([
       ["<-- BACK", () => goTo("intro")]
       ])
-      heading("\nWELCOME TO WINGSLOP COLLECTION")
       const grid = document.createElement("div");
       grid.className = "ending-grid";
       main.append(grid);
@@ -571,6 +594,17 @@ if (index === 0 || (index > 0 && collections[index - 1].complete)) {
         ]);
     }
 
+    function showDialogue(){
+      heading("CUSTOMER COMPLAINT");
+      paragraph("The customer you just served demands more Nuclear sauce is put on their wings. You check the kitchen, but you seem to have run out. What do you say?")
+      buttons([
+        ["GIVE THEM THE WRONG SAUCE AND SWEAR IT'S THE RIGHT ONE", () => heading("They didn't like that very much...")],
+        ["APOLOGIZE BUT SAY YOU RAN OUT", () => { return end("CALL TO SAUCE", "YOU MANAGED TO CALM THE CUSTOMER DOWN. ONE PROBLEM. WHAT IF THEIR COMPLAINT WASN'T AN ANOMALY?")}],
+        ["GASLIGHT THEM INTO THINKING THE NUCLEAR SAUCE NEVER EXISTED", () => heading("They didn't like that very much...")],
+        ["BEG THE CUSTOMER TO ORDER SOMETHING ELSE", () => heading("They didn't like that very much...")]
+        ])
+    }
+
     function showMainMenu() {
         heading("WINGSLOP EMPLOYEE TERMINAL");
         if (message) paragraph(message);
@@ -581,6 +615,15 @@ if (index === 0 || (index > 0 && collections[index - 1].complete)) {
             ["CHECK SANITATION", () => goTo("sanitation")],
             ["WAIT (1 ACTION)", () => act("wait")]
         ]);
+    }
+
+    function showLeave(){
+      heading("LEAVING SO SOON?")
+      paragraph("You wonder if the chicken would be happy about you leaving. Would he?")
+      buttons([
+        ["YES, HE WOULD ALLOW IT", () => {return end('A BREATH OF CHEMICALLY AIR', 'YOU LEAVE THE COMFORT OF WINGSLOP. WELCOME TO THE REAL WORLD, SLOPMAKER.')}],
+        ["NO, HE WOULD KILL ME", () => paragraph("You continue about your normal day...")]
+      ])
     }
 
     function showTasks(canWork) {
@@ -665,8 +708,15 @@ if (index === 0 || (index > 0 && collections[index - 1].complete)) {
         if (screen === "serve") showCustomers(true);
         if (screen === "pantry") showPantry();
         if (screen === "sanitation") showSanitation();
+        if (screen === "dialogue") showDialogue();
+        if (screen === "leave") showLeave();
 
         showLog();
+    }
+
+    function customerComplaint(){
+      screen = "dialogue",
+      render()
     }
 
     let chosenDiff = 0;
