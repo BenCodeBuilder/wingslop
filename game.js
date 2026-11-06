@@ -148,11 +148,14 @@ const allEndings = [
       };
       log = [];
       if(g.diff === 3 && unlockedEndings.some(e => e.name === "WINGNOBYL")){
-      if(!menu.includes("Nuclear nachos")){
-      menu.push("Nuclear nachos")
-      }
-      g.pantry["Nuclear nachos"] = 15
-      }
+    if(!menu.includes("Nuclear nachos")){
+        menu.push("Nuclear nachos");
+    }
+    g.pantry["Nuclear nachos"] = 15;
+} else {
+    const index = menu.indexOf("Nuclear nachos");
+    if(index !== -1) menu.splice(index, 1);
+}
       note('WELCOME TO YOUR SHIFT AT WINGSLOP. The chicken expects excellence.');
       startShift()
     }
@@ -233,12 +236,12 @@ const allEndings = [
         payroll();
         if(g.ended)return;
         g.day++;
+        g.action = 1
         if(g.day === 31){
           screen = "leave"
           render()
           return
         }
-        g.action = 1
       } else g.action++;
       if(g.rep >= 100)return end('INNER CIRCLE', "Due to your high reputation with the chicken, you have been invited to his luncheon. Maybe he isn't so bad after all...")
       if(rnd([5, 4, 2, 1][g.diff]) === 0)g.san = Math.max(1, g.san-(3+rnd(8)));
@@ -596,10 +599,10 @@ if (index === 0 || (index > 0 && collections[index - 1].complete)) {
       heading("CUSTOMER COMPLAINT");
       paragraph("The customer you just served demands more Nuclear sauce is put on their wings. You check the kitchen, but you seem to have run out. What do you say?")
       buttons([
-        ["GIVE THEM THE WRONG SAUCE AND SWEAR IT'S THE RIGHT ONE", () => heading("They didn't like that very much...")],
+        ["GIVE THEM THE WRONG SAUCE AND SWEAR IT'S THE RIGHT ONE", () => tick()],
         ["APOLOGIZE BUT SAY YOU RAN OUT", () => { return end("CALL TO SAUCE", "YOU MANAGED TO CALM THE CUSTOMER DOWN. ONE PROBLEM. WHAT IF THEIR COMPLAINT WASN'T AN ANOMALY?")}],
-        ["GASLIGHT THEM INTO THINKING THE NUCLEAR SAUCE NEVER EXISTED", () => heading("They didn't like that very much...")],
-        ["BEG THE CUSTOMER TO ORDER SOMETHING ELSE", () => heading("They didn't like that very much...")]
+        ["GASLIGHT THEM INTO THINKING THE NUCLEAR SAUCE NEVER EXISTED", () => tick()],
+        ["BEG THE CUSTOMER TO ORDER SOMETHING ELSE", () => tick()]
         ])
     }
 
@@ -619,8 +622,8 @@ if (index === 0 || (index > 0 && collections[index - 1].complete)) {
       heading("LEAVING SO SOON?")
       paragraph("You wonder if the chicken would be happy about you leaving. Would he?")
       buttons([
-        ["YES, HE WOULD ALLOW IT", () => {return end('A BREATH OF CHEMICALLY AIR', 'YOU LEAVE THE COMFORT OF WINGSLOP. WELCOME TO THE REAL WORLD, SLOPMAKER.')}],
-        ["NO, HE WOULD KILL ME", () => paragraph("You continue about your normal day...")]
+        ["YES, HE WOULD ALLOW IT", () => {return end('A BREATH OF CHEMICALLY STABLE AIR', 'YOU LEAVE THE COMFORT OF WINGSLOP. WELCOME TO THE REAL WORLD, SLOPMAKER.')}],
+        ["NO, HE WOULD KILL ME", () => startShift()]
       ])
     }
 
